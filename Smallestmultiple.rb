@@ -6,12 +6,11 @@
   numbers from 1 to 20?
 =end
 
-@num1 = @num2 = 0
-
 # constraint: a > b
 def LCM(a, b)
   tmp = a.gcd(b)
   return a*b/tmp
 end
 
+# use inject on enumerables to reduce down to final answer
 puts (1..20).inject{ |b, a| LCM(b, a) }
