@@ -1,5 +1,8 @@
 # Created by http://www.gitignore.io
 
+### c9 files ###
+.c9
+
 ### Java ###
 *.class
 
