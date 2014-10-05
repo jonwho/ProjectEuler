@@ -22,7 +22,7 @@ int gcd(int a, int b)
 int LCM(int a, int b)
 {
   int tmp = gcd(a, b);
-  return a*b/tmp;
+  return a * b / tmp;
 }
 
 int main()
