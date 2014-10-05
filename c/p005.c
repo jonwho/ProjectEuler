@@ -13,8 +13,7 @@
  */
 int gcd(int a, int b)
 {
-  // TODO implement gcd
-  return 0;
+  return b == 0 ? a : gcd(b, a % b);
 }
 
 /**
@@ -28,5 +27,13 @@ int LCM(int a, int b)
 
 int main()
 {
-  // TODO get LCM 1 -> 20
+  int lcmVar = 1;
+  int i = 1;
+
+  for(; i < 20; ++i)
+  {
+  	lcmVar = LCM(lcmVar, i);
+  }
+
+  printf("%d\n", lcmVar);
 }
