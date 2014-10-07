@@ -12,6 +12,8 @@ For example, 342 (three hundred and forty-two) contains 23 letters and 115
 out numbers is in compliance with British usage.
 =end
 
+# answer is 21124
+
 @numbers = {
     0 => '',
     1 => 'one',
@@ -51,10 +53,18 @@ out numbers is in compliance with British usage.
     case num
     when 1..19
         @letterCount += @numbers[num].length
+	@first = @letterCount
     when 20..99
         ones = num % 10
-        tens = num / 10
-        @letterCount += @numbers[ones].length + @numbers[tens].length
+        tens = num - ones
+	if(num % 10 == 0)
+	    puts num
+	    @letterCount += @numbers[num].length
+	else
+	    puts num
+            @letterCount += @numbers[ones].length + @numbers[tens].length
+	end
+	@second = @letterCount
     when 100..999
         twoDigits = num % 100
         hundreds = num / 100
@@ -64,9 +74,7 @@ out numbers is in compliance with British usage.
         # 'hundred'.length
         @letterCount += @numbers[100].length
         
-        if(twoDigits == 0)
-            # add nothing
-        elsif(twoDigits < 20)
+        if(twoDigits < 20)
             @letterCount += @numbers[twoDigits].length
             # 'and', e.g. 'one hundred and fifteen'
             @letterCount += 3
@@ -77,11 +85,21 @@ out numbers is in compliance with British usage.
             # 'and', e.g. 'one hundred and fifty-four'
             @letterCount += 3
         end
+	@third = @letterCount
     when 1000
         # 'one thousand'.length
         @letterCount += @numbers[1].length
         @letterCount += @numbers[num].length
+	@fourth = @letterCount
     end
 end
 
+puts 'letter count after 1-19 is: '
+puts @first
+puts 'letter count after 99 is: '
+puts @second
+puts 'letter count after 999 is: '
+puts @third
+puts 'letter count after 1000 is: '
+puts @fourth
 puts @letterCount
