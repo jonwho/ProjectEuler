@@ -49,48 +49,67 @@ out numbers is in compliance with British usage.
 
 @letterCount = 0
 
+def do1to19(num)
+    count = @numbers[num].length
+    puts @numbers[num]
+    count
+end
+
+def doTens(num)
+    count = 0
+    ones = num % 10
+    tens = (num / 10) * 10
+    if(num % 10 == 0)
+        count = @numbers[num].length
+        puts @numbers[num]
+    else
+        count = @numbers[tens].length + @numbers[ones].length
+        puts @numbers[tens] + ' ' +  @numbers[ones]
+    end
+    count
+end
+
+def doHuns(num)
+    count = 0
+    twoDigits = num % 100
+    hundreds = num / 100
+
+    # 'one' hundred, 'two', 'three', etc ...
+    count += @numbers[hundreds].length
+    # 'hundred'.length
+    count += @numbers[100].length
+
+    if(twoDigits == 0)
+        puts @numbers[hundreds] + ' ' + @numbers[100]
+    elsif(twoDigits < 20)
+        print @numbers[hundreds] + ' ' + @numbers[100] + ' and '
+        count += 'and'.length
+        count += do1to19(twoDigits)
+    else
+        print @numbers[hundreds] + ' ' + @numbers[100] + ' and '
+        count += 'and'.length
+        count += doTens(twoDigits)
+    end
+	count
+end
+
 1.upto(1000) do |num|
     case num
     when 1..19
-        @letterCount += @numbers[num].length
-	@first = @letterCount
+        @letterCount += do1to19(num)
+	    @first = @letterCount
     when 20..99
-        ones = num % 10
-        tens = num - ones
-	if(num % 10 == 0)
-	    puts num
-	    @letterCount += @numbers[num].length
-	else
-	    puts num
-            @letterCount += @numbers[ones].length + @numbers[tens].length
-	end
-	@second = @letterCount
+        @letterCount += doTens(num)
+        @second = @letterCount
     when 100..999
-        twoDigits = num % 100
-        hundreds = num / 100
-        
-        # one hundred, two, three, etc ...
-        @letterCount += @numbers[hundreds].length
-        # 'hundred'.length
-        @letterCount += @numbers[100].length
-        
-        if(twoDigits < 20)
-            @letterCount += @numbers[twoDigits].length
-            # 'and', e.g. 'one hundred and fifteen'
-            @letterCount += 3
-        else
-            ones = twoDigits % 10
-            tens = twoDigits / 10
-            @letterCount += @numbers[ones].length + @numbers[tens].length
-            # 'and', e.g. 'one hundred and fifty-four'
-            @letterCount += 3
-        end
-	@third = @letterCount
+        @letterCount += doHuns(num)
+        @third = @letterCount
     when 1000
         # 'one thousand'.length
         @letterCount += @numbers[1].length
         @letterCount += @numbers[num].length
-	@fourth = @letterCount
+	    @fourth = @letterCount
+	    puts @numbers[1] + ' ' + @numbers[num]
     end
 end
 
@@ -102,4 +121,3 @@ puts 'letter count after 999 is: '
 puts @third
 puts 'letter count after 1000 is: '
 puts @fourth
-puts @letterCount
