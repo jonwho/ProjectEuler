@@ -37,7 +37,7 @@ out numbers is in compliance with British usage.
     19 => 'nineteen',
     20 => 'twenty',
     30 => 'thirty',
-    40 => 'fourty',
+    40 => 'forty', # correct spelling of 40 is FORTY not FOURTY
     50 => 'fifty',
     60 => 'sixty',
     70 => 'seventy',
@@ -49,67 +49,66 @@ out numbers is in compliance with British usage.
 
 @letterCount = 0
 
-def do1to19(num)
-    count = @numbers[num].length
-    puts @numbers[num]
-    count
+def countLetters(str)
+    str.count 'a-zA-z'
 end
 
+def do1to19(num)
+    @numbers[num]
+end
+
+# remember that in ruby that last statement ran is the return value
 def doTens(num)
-    count = 0
     ones = num % 10
     tens = (num / 10) * 10
     if(num % 10 == 0)
-        count = @numbers[num].length
-        puts @numbers[num]
+        @numbers[num]
     else
-        count = @numbers[tens].length + @numbers[ones].length
-        puts @numbers[tens] + ' ' +  @numbers[ones]
+        @numbers[tens] + '-' + @numbers[ones]
     end
-    count
 end
 
 def doHuns(num)
-    count = 0
+    str = ''
+    
     twoDigits = num % 100
     hundreds = num / 100
 
-    # 'one' hundred, 'two', 'three', etc ...
-    count += @numbers[hundreds].length
-    # 'hundred'.length
-    count += @numbers[100].length
+    str = @numbers[hundreds] + ' ' + @numbers[100]
 
     if(twoDigits == 0)
-        puts @numbers[hundreds] + ' ' + @numbers[100]
+        # do nothing
     elsif(twoDigits < 20)
-        print @numbers[hundreds] + ' ' + @numbers[100] + ' and '
-        count += 'and'.length
-        count += do1to19(twoDigits)
+        str += ' and ' + do1to19(twoDigits)
     else
-        print @numbers[hundreds] + ' ' + @numbers[100] + ' and '
-        count += 'and'.length
-        count += doTens(twoDigits)
+        str += ' and ' + doTens(twoDigits)
     end
-	count
+    str
 end
 
 1.upto(1000) do |num|
     case num
     when 1..19
-        @letterCount += do1to19(num)
+        numberString = do1to19(num)
+        @letterCount += countLetters(numberString)
 	    @first = @letterCount
+	    puts numberString + ' ' + @letterCount.to_s
     when 20..99
-        @letterCount += doTens(num)
+        numberString = doTens(num)
+        @letterCount += countLetters(numberString)
         @second = @letterCount
+        puts numberString + ' ' + @letterCount.to_s
     when 100..999
-        @letterCount += doHuns(num)
+        numberString = doHuns(num)
+        @letterCount += countLetters(numberString)
         @third = @letterCount
+        puts numberString + ' ' + @letterCount.to_s
     when 1000
         # 'one thousand'.length
-        @letterCount += @numbers[1].length
-        @letterCount += @numbers[num].length
-	    @fourth = @letterCount
-	    puts @numbers[1] + ' ' + @numbers[num]
+        numberString = @numbers[1] + ' ' + @numbers[num]
+        @letterCount += countLetters(numberString)
+        @fourth = @letterCount
+        puts numberString + ' ' + @letterCount.to_s
     end
 end
 
